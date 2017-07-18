@@ -1,0 +1,68 @@
+Neo4j Working on windows. 
+---------------
+
+1.To start Neo4j Enterprise 
+
+-->Open the folder "Neo4j"
+-->copy the path of  "Bin" folder
+-->Open the command Prompt
+-->Open the bin folder Using cd 
+-->Run "neo4j console"
+-->once the service id started open the browser and go to "localhost:7474"
+-->neo4j is now started.
+-------------------------------------------------------------------------------------------------------------
+Neo4j Working on linux. 
+----------------------------
+
+1. Installing Neo4j enterprice version on ubuntu
+
+-->Before installing neo4j we have to make sure JVM is installed.
+
+-->run "java" in the terminal
+
+-->if Jvm is running fine then we need to madd the repository first. 
+install JVM.
+
+--> To add repository use "wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
+echo 'deb http://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list".
+--> update using "sudo apt-get update" command.
+ 
+--> When it is successfull updated follow the steps
+sudo apt-get install neo4j=3.2.2(For community edition)
+sudo apt-get install neo4j-enterprise=3.2.2(For Enterprise edition)
+
+--> after installing we need to configur the files. to configure we need to migrate the files from 2.3 to 3.2.2
+
+--> The following steps are involved in confiuring
+sudo -u neo4j -g adm java -jar /usr/share/neo4j/bin/tools/2.x-config-migrator.jar /var/lib/neo4j
+/var/lib/neo4j
+sudo -u neo4j neo4j-admin import --mode=database --database=graph.db --from=/var/lib/neo4j/data/graph.db( importing db)
+sudo sed -i 's/#dbms.allow_format_migration=true/dbms.allow_format_migration=true/' /etc/neo4j/neo4j.conf
+
+--> Finally start the service using command 
+sudo service neo4j start
+-->once the service id started open the browser in the terminal and go to "localhost:7474".
+-->Initially "neo4j" is the password and change it once logged in. 
+--------------------------------------------------------------------------------------------------------------------------
+1. Access neo4j from local machine
+
+-----------------------------------
+
+--> After installing neo4j in the VM machine Start the Neo4j Service. 
+
+--> Now open the "neo4j.conf" file in the /etc/neo4j folder. 
+
+--> Edit the neo4j.conf file using vi editor. 
+
+--> Edit the "Network connector configuration" activating the following listen comands
+    # Network connector configuration
+    dbms.connectors.default_listen_address=0.0.0.0:7474
+    dbms.connector.bolt.listen_address=0.0.0.0:7687
+    dbms.connector.http.listen_address=0.0.0.0:7474
+    dbms.connector.https.listen_address=0.0.0.0:7473
+
+--> save the file
+
+--> Restart the service.
+
+--> Now open the local machine browser and try to access the Neo4j.
